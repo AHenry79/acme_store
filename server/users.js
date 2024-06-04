@@ -4,6 +4,7 @@ const {
   getAllUsers,
   getFavoritesByUserId,
   getSingleUserById,
+  postFavoriteByUserId,
 } = require("./db");
 
 router.get("/", async (req, res, next) => {
@@ -23,6 +24,13 @@ router.get("/:id", async (req, res, next) => {
 router.get("/:id/favorites", async (req, res, next) => {
   try {
     res.send(await getFavoritesByUserId(req.params.id));
+  } catch (err) {
+    next(err);
+  }
+});
+router.post("/:userId/favorites", async (req, res, next) => {
+  try {
+    res.send(await postFavoriteByUserId(req.body));
   } catch (err) {
     next(err);
   }
