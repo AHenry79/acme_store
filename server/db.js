@@ -16,6 +16,34 @@ const getAllFavorites = async () => {
   );
   return response.rows;
 };
-const getUserFavorites = async () => {};
+const getSingleUserById = async (id) => {
+  const response = await client.query(`SELECT * FROM users WHERE id = $1`, [
+    id,
+  ]);
+  return response.rows[0];
+};
+const getFavoritesByUserId = async (params_id) => {
+  const response = await client.query(`SELECT * FROM users WHERE id = $1`, [
+    params_id,
+  ]);
+  const { id, username, password } = response.rows[0];
+  const fav_response = await client.query(
+    `SELECT * FROM favorites WHERE user_id = $1`,
+    [params_id]
+  );
+  return {
+    id,
+    username,
+    password,
+    favorites: fav_response.rows,
+  };
+};
 
-module.exports = { getAllUsers, getAllProducts, getAllFavorites, client };
+module.exports = {
+  getAllUsers,
+  getAllProducts,
+  getAllFavorites,
+  getSingleUserById,
+  getFavoritesByUserId,
+  client,
+};
