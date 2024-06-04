@@ -41,6 +41,12 @@ const postFavoriteByUserId = async (body) => {
     user_id: body.user_id,
   };
 };
+const deleteFavoriteByUserId = async (id) => {
+  await client.query(`DELETE FROM favorites WHERE id = $1`, [Number(id)]);
+  return {
+    id: id,
+  };
+};
 module.exports = {
   getAllUsers,
   getAllProducts,
@@ -48,5 +54,6 @@ module.exports = {
   getSingleUserById,
   getFavoritesByUserId,
   postFavoriteByUserId,
+  deleteFavoriteByUserId,
   client,
 };

@@ -5,6 +5,7 @@ const {
   getFavoritesByUserId,
   getSingleUserById,
   postFavoriteByUserId,
+  deleteFavoriteByUserId,
 } = require("./db");
 
 router.get("/", async (req, res, next) => {
@@ -31,6 +32,13 @@ router.get("/:id/favorites", async (req, res, next) => {
 router.post("/:userId/favorites", async (req, res, next) => {
   try {
     res.send(await postFavoriteByUserId(req.body));
+  } catch (err) {
+    next(err);
+  }
+});
+router.delete("/:userId/favorites/:id", async (req, res, next) => {
+  try {
+    res.send(await deleteFavoriteByUserId(req.params.id));
   } catch (err) {
     next(err);
   }
